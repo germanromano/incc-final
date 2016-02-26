@@ -1,13 +1,12 @@
 #! /usr/bin/env python
 import nltk
-import os
-os.environ['STANFORD_MODELS'] = 'stanford-postagger-full-2015-04-20/models'
-os.environ['CLASSPATH'] = 'stanford-postagger-full-2015-04-20/stanford-postagger.jar'
+# import os
+# os.environ['STANFORD_MODELS'] = 'stanford-postagger-full-2015-04-20/models'
+# os.environ['CLASSPATH'] = 'stanford-postagger-full-2015-04-20/stanford-postagger.jar'
 
 
-corpusReader = nltk.corpus.PlaintextCorpusReader('.','example_book.txt',encoding='latin1')
+corpusReader = nltk.corpus.PlaintextCorpusReader('./books/','M-cyprs10.txt',encoding='latin1')
 sents = corpusReader.sents()
-words = corpusReader.words()
 
 # #--------------------------------------------------------------------------
 # # Total number of sentences
@@ -22,20 +21,15 @@ numOfWords = 0
 avgWordLength = 0.0
 wwrl = 0.0
 
+# #--------------------------------------------------------------------------
+# # Amount of questions
 
-for w in words:
-  if w not in ".,-":
-    numOfWords += 1
-    avgWordLength += len(w)
-  for l in w:
-    if w.count(l) > 1:
-      wwrl += 1
-      break
+questions = 0.0
 
-avgWordLength /= numOfWords
+# #--------------------------------------------------------------------------
+# # Amount of exclamations
 
-wordsWithRepeatingLetters = wwrl / numOfWords
-
+exclamations = 0.0
 
 # #--------------------------------------------------------------------------
 # # Average tokens per sentence, Punctuation per sentence, Female to male pronoun
@@ -46,6 +40,14 @@ avgPunctuationMarksPerSentence = 0.0
 femPronouns = 0.0
 malePronouns = 0.0
 
+# #--------------------------------------------------------------------------
+# # Mentions of children
+
+childrenMentions = 0.0
+
+
+# #--------------------------------------------------------------------------
+# # FEATURE EXTRACTION
 
 for sentence in sents:
   avgTokensPerSentence += len(sentence)
@@ -55,17 +57,43 @@ for sentence in sents:
     word = word.lower()
     if word in ",.-!?()":
       punctuationMarks += 1
-    if word == "she" or word == "her" or word == "hers":
-      femPronouns += 1
-    if word == "he" or word == "him" or word == "his":
-      malePronouns += 1
-  avgPunctuationMarksPerSentence += punctuationMarks
+      if word == "?":
+        questions += 1
+      elif word == "!":
+        exclamations += 1
+    else:
+      numOfWords += 1
+      avgWordLength += len(word)
+      if word == "she" or word == "her" or word == "hers":
+        femPronouns += 1
+      elif word == "he" or word == "him" or word == "his":
+        malePronouns += 1
+      elif word == "child" or word == "children" or word == "baby" or word == "babies" or word == "son" or word == "daughter":
+        childrenMentions =+ 1
+
+      for l in word:
+        if word.count(l) > 1:
+          wwrl += 1
+          break
+
+
+avgPunctuationMarksPerSentence += punctuationMarks
+
+avgWordLength /= numOfWords
+
+wordsWithRepeatingLetters = wwrl / numOfWords
+
+questions /= numOfWords
+
+exclamations /= numOfWords
 
 avgTokensPerSentence /= numberOfSentences
 
 avgPunctuationMarksPerSentence /= numberOfSentences
 
 femToMalePronounRatio = femPronouns / malePronouns
+
+childrenMentions /= numOfWords
 
 # #--------------------------------------------------------------------------
 # # Number of adjectives / adverbs / nouns / cardinal numbers over total
