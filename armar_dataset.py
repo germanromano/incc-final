@@ -105,7 +105,7 @@ for root, dirs, filenames in os.walk(books_path):
 
 				femToMalePronounRatio = femPronouns / malePronouns
 
-				childrenMentions /= numOfWords
+				childrenMentions /= numOfWords # OBS: Aparentemente, este numero es muy chico: siempre da cero.
 
 
 				# #--------------------------------------------------------------------------
@@ -115,9 +115,10 @@ for root, dirs, filenames in os.walk(books_path):
 				dataset.write('#' + f + '\n')
 				
 				#Imprimo features
-				dataset.write(str(numberOfSentences) + ',' + str(numOfWords) + ',' + str(avgWordLength) + ',' + str(wwrl) + ',' +
-					str(wordsWithRepeatingLetters) + ',' + str(avgTokensPerSentence) + ',' + str(avgPunctuationMarksPerSentence) +
-					',' + str(femPronouns) + ',' + str(malePronouns) + ',' + str(femToMalePronounRatio) + ',' + str(gender) + '\n')
+				dataset.write(str(numberOfSentences) + ',' + str(numOfWords) + ',' + str(avgWordLength) + ',' + str(wwrl) +
+					',' + str(wordsWithRepeatingLetters) + ',' + str(questions) + ',' +  str(exclamations) + ',' + str(avgTokensPerSentence)+
+					',' + str(avgPunctuationMarksPerSentence) + ',' + str(femPronouns) + ',' + str(malePronouns) +
+					',' + str(femToMalePronounRatio) + ',' + str(childrenMentions) + ',' + str(gender) + '\n')
 					
 					
 		except OSError:

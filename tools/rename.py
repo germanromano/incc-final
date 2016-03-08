@@ -3,6 +3,9 @@ import re
 import os
 import sys
 
+not_found = []
+unknown_sex = []
+
 male_names = set()
 male_file = open("./male.data", "r")
 for line in male_file:
@@ -47,22 +50,31 @@ for root, dirs, filenames in os.walk("."):
 
 					if male and (not female):
 						os.rename(f, "M-"+f)
-						#os.rename(f, "M[" + '-'.join(author) + "]-" + f)
 						print ' '.join(author), "[MALE]"
 					if (not male) and female:
 						os.rename(f, "F-"+f)
-						#os.rename(f, "F[" + '-'.join(author) + "]-" + f)
 						print ' '.join(author), "[FEMALE]"
 					if (male and female) or ((not male) and (not female)):
-						# os.rename(f, "X-"+f)
-						print "INVALID: "
-						#os.rename(f, "X[" + '-'.join(author) + "]-" + f)
-						print ' '.join(author), "?"
+						#os.rename(f, "X-"+f)
+						#print ' '.join(author), "from ", f, " [?]"
+						unknown_sex.append(' '.join(author) + 'from ' + f)
 
 				else:
 					os.rename(f, "X-"+f)
-					#os.rename(f, "X[" + '-'.join(author) + "]-" + f)
-					print f, "Author not found"
+					#print f, "Author not found"
+					not_found.append(f)
 
 		except OSError:
 			print f, "No file"
+
+print
+if len(not_found) > 0:
+	print '============== AUTHOR NOT FOUND: ' + str(len(not_found)) + ' =============='
+	for i in not_found:
+		print i
+
+print
+if len(unknown_sex) > 0:
+	print '============== UNKWNON SEX: ' + str(len(unknown_sex)) + ' =============='
+	for i in unknown_sex:
+		print i

@@ -36,8 +36,7 @@ X_dev, X_dev, y_verif, y_verif = cross_validation.train_test_split(X, y, test_si
 # Separacion en datos de training y testing
 X_train, X_test, y_train, y_test = cross_validation.train_test_split(X, y, test_size=0.2, random_state=1234)
 
-
-print X_train.shape, y_train.shape, X_test.shape, y_test.shape
+#print X_train.shape, y_train.shape, X_test.shape, y_test.shape
 
 # Hacer el clasificador
 clf = RandomForestClassifier(n_estimators=10)

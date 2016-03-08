@@ -132,11 +132,14 @@ print "Numb. of words\t\t\t", numOfWords
 print "Avg. word lenght\t\t", avgWordLength
 print "Numb. of words w rep. letters\t", wwrl
 print "Perc. of words w rep. letters\t", wordsWithRepeatingLetters
+print "Questions / total\t\t", questions
+print "Exclamations / total\t\t", exclamations
 print "Avg. token per sent.\t\t", avgTokensPerSentence
 print "Avg. punc. marks per sent.\t", avgPunctuationMarksPerSentence
 print "Numb. of fem. pronouns\t\t", femPronouns
 print "Numb. of male pronouns\t\t", malePronouns
 print "Fem. to male pr. ratio\t\t", femToMalePronounRatio
+print "Children mentions / total\t", childrenMentions
 #print "Adjectives / total\t\t", adjectives
 #print "Adverbs / total\t\t\t", adverbs
 #print "Nouns / total\t\t\t", nouns
