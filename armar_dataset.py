@@ -9,14 +9,14 @@ for root, dirs, filenames in os.walk(books_path):
 	for f in filenames:
 		try:
 			if f.endswith(".txt") and f[0:2] in ["F-","M-"]:
-				
+
 				print f
-				
+
 				if f[0] == "F":
 					gender = 0
 				else:
 					gender = 1
-					
+
 				corpusReader = nltk.corpus.PlaintextCorpusReader(books_path, f, encoding='latin1')
 				sents = corpusReader.sents()
 
@@ -81,7 +81,7 @@ for root, dirs, filenames in os.walk(books_path):
 					  elif word == "he" or word == "him" or word == "his":
 						malePronouns += 1
 					  elif word == "child" or word == "children" or word == "baby" or word == "babies" or word == "son" or word == "daughter":
-						childrenMentions =+ 1
+						childrenMentions += 1
 
 					  for l in word:
 						if word.count(l) > 1:
@@ -110,17 +110,17 @@ for root, dirs, filenames in os.walk(books_path):
 
 				# #--------------------------------------------------------------------------
 				# # DATA LOAD
-				
+
 				#Imprimo nombre de archivo
 				dataset.write('#' + f + '\n')
-				
+
 				#Imprimo features
 				dataset.write(str(numberOfSentences) + ',' + str(numOfWords) + ',' + str(avgWordLength) + ',' + str(wwrl) +
 					',' + str(wordsWithRepeatingLetters) + ',' + str(questions) + ',' +  str(exclamations) + ',' + str(avgTokensPerSentence)+
 					',' + str(avgPunctuationMarksPerSentence) + ',' + str(femPronouns) + ',' + str(malePronouns) +
 					',' + str(femToMalePronounRatio) + ',' + str(childrenMentions) + ',' + str(gender) + '\n')
-					
-					
+
+
 		except OSError:
 			print f, "No file"
 

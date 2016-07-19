@@ -16,7 +16,7 @@ for line in dataset:
 		etiquetas.append(int((split[-1])[0]))
 
 #for i in features:
-#	print i	
+#	print i
 #print etiquetas
 
 dataset.close()
@@ -47,3 +47,4 @@ y_pred = clf.predict(X_test)
 
 # Comparacion entre el predicho y el de etiquetas
 print metrics.accuracy_score(y_test, y_pred)
+print metrics.confusion_matrix(y_test, y_pred)

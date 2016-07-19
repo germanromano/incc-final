@@ -69,7 +69,7 @@ for sentence in sents:
       elif word == "he" or word == "him" or word == "his":
         malePronouns += 1
       elif word == "child" or word == "children" or word == "baby" or word == "babies" or word == "son" or word == "daughter":
-        childrenMentions =+ 1
+        childrenMentions += 1
 
       for l in word:
         if word.count(l) > 1:
