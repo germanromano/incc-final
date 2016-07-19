@@ -3,7 +3,7 @@ import os
 import nltk
 
 dataset = open('dataset.txt', 'a')
-books_path = './books/'
+books_path = '../books/'
 
 for root, dirs, filenames in os.walk(books_path):
 	for f in filenames:
@@ -105,7 +105,7 @@ for root, dirs, filenames in os.walk(books_path):
 
 				femToMalePronounRatio = femPronouns / malePronouns
 
-				childrenMentions /= numOfWords # OBS: Aparentemente, este numero es muy chico: siempre da cero.
+				childrenMentions /= numOfWords # OBS: Estaba mal el signo, no da siempre 0. (=+ en vez de += al contar)
 
 
 				# #--------------------------------------------------------------------------
@@ -120,9 +120,9 @@ for root, dirs, filenames in os.walk(books_path):
 					',' + str(avgPunctuationMarksPerSentence) + ',' + str(femPronouns) + ',' + str(malePronouns) +
 					',' + str(femToMalePronounRatio) + ',' + str(childrenMentions) + ',' + str(gender) + '\n')
 
-
 		except OSError:
 			print f, "No file"
-
+		except ZeroDivisionError:
+			print f, "ZERO DIVISION ERROR"
 
 dataset.close()

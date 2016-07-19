@@ -45,6 +45,9 @@ clf.fit(X_train, y_train)
 # Predicho por el clasificador
 y_pred = clf.predict(X_test)
 
+columns = ["numberOfSentences","numOfWords","avgWordLength","wwrl","wordsWithRepeatingLetters","questions","exclamations","avgTokensPerSentence","avgPunctuationMarksPerSentence","femPronouns","malePronouns","femToMalePronounRatio","childrenMentions"]
+print zip(columns, clf.feature_importances_)
+
 # Comparacion entre el predicho y el de etiquetas
 print metrics.accuracy_score(y_test, y_pred)
 print metrics.confusion_matrix(y_test, y_pred)
