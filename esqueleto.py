@@ -1,7 +1,13 @@
 import numpy as np
+# import matplotlib.pyplot as plt
 from sklearn import cross_validation
 from sklearn import metrics
 from sklearn.ensemble import RandomForestClassifier
+# Igual al RandomForest
+# from sklearn.ensemble import ExtraTreesClassifier
+# Un poco peor. ~90%
+# from sklearn.tree import DecisionTreeClassifier
+
 
 #Levanto features del dataset
 dataset = open('dataset.txt', 'r')
@@ -46,8 +52,22 @@ clf.fit(X_train, y_train)
 y_pred = clf.predict(X_test)
 
 columns = ["numberOfSentences","numOfWords","avgWordLength","wwrl","wordsWithRepeatingLetters","questions","exclamations","avgTokensPerSentence","avgPunctuationMarksPerSentence","femPronouns","malePronouns","femToMalePronounRatio","childrenMentions"]
+importances = clf.feature_importances_
 print zip(columns, clf.feature_importances_)
 
 # Comparacion entre el predicho y el de etiquetas
 print metrics.accuracy_score(y_test, y_pred)
 print metrics.confusion_matrix(y_test, y_pred)
+
+# std = np.std([tree.feature_importances_ for tree in clf.estimators_],
+#              axis=0)
+# indices = np.argsort(importances)[::-1]
+
+# # Plot the feature importances of the forest
+# plt.figure()
+# plt.title("Feature importances")
+# plt.bar(range(X.shape[1]), importances[indices],
+#        color="r", yerr=std[indices], align="center")
+# plt.xticks(range(X.shape[1]), indices)
+# plt.xlim([-1, X.shape[1]])
+# plt.show()
