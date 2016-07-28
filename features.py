@@ -5,7 +5,7 @@ import nltk
 # os.environ['CLASSPATH'] = 'stanford-postagger-full-2015-04-20/stanford-postagger.jar'
 
 
-corpusReader = nltk.corpus.PlaintextCorpusReader('./books/','M-cyprs10.txt',encoding='latin1')
+corpusReader = nltk.corpus.PlaintextCorpusReader('./books/','F-pg1342.txt',encoding='latin1')
 sents = corpusReader.sents()
 
 # #--------------------------------------------------------------------------
@@ -22,14 +22,21 @@ avgWordLength = 0.0
 wwrl = 0.0
 
 # #--------------------------------------------------------------------------
-# # Amount of questions
+# # Amount of questions and exclamations
 
 questions = 0.0
+exclamations = 0.0
 
 # #--------------------------------------------------------------------------
-# # Amount of exclamations
+# # Relationship mentions, displays of affection, mentions of happiness or sadness.
+# # Mentions of colors
 
-exclamations = 0.0
+relationships = 0.0
+colors = 0.0
+happiness = 0.0
+sadness = 0.0
+affection = 0.0
+
 
 # #--------------------------------------------------------------------------
 # # Average tokens per sentence, Punctuation per sentence, Female to male pronoun
@@ -64,12 +71,22 @@ for sentence in sents:
     else:
       numOfWords += 1
       avgWordLength += len(word)
-      if word == "she" or word == "her" or word == "hers":
+      if word in ["she","her","hers","she's","she'd"]:
         femPronouns += 1
-      elif word == "he" or word == "him" or word == "his":
+      elif word in ["he","him","his","he's","he'd"]:
         malePronouns += 1
-      elif word == "child" or word == "children" or word == "baby" or word == "babies" or word == "son" or word == "daughter":
+      elif word in ["child","children","baby","babies","son","daughter"]:
         childrenMentions += 1
+      elif word in ["love","lovely","marriage","enamoured","fancy","care","seduce","girlfriend","boyfriend","fiance","fiancee","engaged"]:
+        relationships += 1
+      elif word in ["blue","brown","yellow","green","red","purple","violet","orange","black","white","lilac","turquoise","gray","pink"]:
+        colors += 1
+      elif word in ["happy","happiness","joy","exultant","exaltation","ecstatic"]:
+        happiness += 1
+      elif word in ["sad","sadness","depression","depressed","cry","crying","tears","cried"]:
+        sadness += 1
+      elif word in ["hug","hugging","kiss","kissing","kissed","hugged","embrace","embracing","embraced","caress","caressing","caressed"]:
+        affection += 1
 
       for l in word:
         if word.count(l) > 1:
@@ -94,6 +111,16 @@ avgPunctuationMarksPerSentence /= numberOfSentences
 femToMalePronounRatio = femPronouns / malePronouns
 
 childrenMentions /= numOfWords
+
+happiness /= numOfWords
+
+sadness /= numOfWords
+
+colors /= numOfWords
+
+relationships /= numOfWords
+
+affection /= numOfWords
 
 # #--------------------------------------------------------------------------
 # # Number of adjectives / adverbs / nouns / cardinal numbers over total
@@ -132,14 +159,19 @@ print "Numb. of words\t\t\t", numOfWords
 print "Avg. word lenght\t\t", avgWordLength
 print "Numb. of words w rep. letters\t", wwrl
 print "Perc. of words w rep. letters\t", wordsWithRepeatingLetters
-print "Questions / total\t\t", questions
-print "Exclamations / total\t\t", exclamations
+print "Questions / total\t\t", '{:.20f}'.format(questions)
+print "Exclamations / total\t\t", '{:.20f}'.format(exclamations)
 print "Avg. token per sent.\t\t", avgTokensPerSentence
 print "Avg. punc. marks per sent.\t", avgPunctuationMarksPerSentence
 print "Numb. of fem. pronouns\t\t", femPronouns
 print "Numb. of male pronouns\t\t", malePronouns
-print "Fem. to male pr. ratio\t\t", femToMalePronounRatio
-print "Children mentions / total\t", childrenMentions
+print "Fem. to male pr. ratio\t\t", '{:.20f}'.format(femToMalePronounRatio)
+print "Children mentions / total\t", '{:.20f}'.format(childrenMentions)
+print "Relationship mentions / total\t", '{:.20f}'.format(relationships)
+print "Color mentions / total\t", '{:.20f}'.format(colors)
+print "Happiness mentions / total\t", '{:.20f}'.format(happiness)
+print "Sadness mentions / total\t", '{:.20f}'.format(sadness)
+print "Displays of affection mentions / total\t", '{:.20f}'.format(affection)
 #print "Adjectives / total\t\t", adjectives
 #print "Adverbs / total\t\t\t", adverbs
 #print "Nouns / total\t\t\t", nouns
