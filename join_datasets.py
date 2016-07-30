@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-features = open('dataset.txt', 'r')
+features = open('datasetWithFeeling.txt', 'r')
 featuresDict = {}
 book = ""
 for line in features:
@@ -23,7 +23,7 @@ for line in postagged:
     postaggedDict[book] = line[:-1]
 postagged.close()
 
-joined = open('joined.txt', 'w')
+joined = open('joined2.txt', 'w')
 for k,v in featuresDict.items():
   if k in postaggedDict:
     joined.write('#' + k + '\n')

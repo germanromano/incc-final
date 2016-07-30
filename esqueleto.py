@@ -2,16 +2,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import cross_validation
 from sklearn import metrics
-# from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier
 # Igual al RandomForest (hasta que agregue features)
-from sklearn.ensemble import ExtraTreesClassifier
+# from sklearn.ensemble import ExtraTreesClassifier
 # Un poco peor. ~85%
 # from sklearn.tree import DecisionTreeClassifier
 
 
 #Levanto features del dataset
 # dataset = open('dataset.txt', 'r')
-dataset = open('datasetWithFeeling.txt', 'r')
+dataset = open('joined2.txt', 'r')
 
 features = []
 etiquetas = []
@@ -19,10 +19,10 @@ etiquetas = []
 for line in dataset:
   if line[0] != '#':
     split = line.split(',')
-    features.append(map(float,split[:-1]))
-    etiquetas.append(int((split[-1])[0]))
-    # features.append(map(float,split[1:]))
-    # etiquetas.append(int((split[0])[0]))
+    # features.append(map(float,split[:-1]))
+    # etiquetas.append(int((split[-1])[0]))
+    features.append(map(float,split[1:]))
+    etiquetas.append(int((split[0])[0]))
 
 #for i in features:
 # print i
@@ -48,14 +48,14 @@ X_train, X_test, y_train, y_test = cross_validation.train_test_split(X, y, test_
 #print X_train.shape, y_train.shape, X_test.shape, y_test.shape
 
 # Hacer el clasificador
-clf = ExtraTreesClassifier(n_estimators=15)
+clf = RandomForestClassifier(n_estimators=15, random_state=1234)
 # Entrenar
 clf.fit(X_train, y_train)
 # Predicho por el clasificador
 y_pred = clf.predict(X_test)
 
-columns = ["numberOfSentences","numOfWords","avgWordLength","wwrl","wordsWithRepeatingLetters","questions","exclamations","avgTokensPerSentence","avgPunctuationMarksPerSentence","femPronouns","malePronouns","femToMalePronounRatio","childrenMentions","happiness","sadness","relationships","colors","affection","dreams"]
-# columns = ["numberOfSentences","numOfWords","avgWordLength","wwrl","wordsWithRepeatingLetters","questions","exclamations","avgTokensPerSentence","avgPunctuationMarksPerSentence","femPronouns","malePronouns","femToMalePronounRatio","childrenMentions","adjectives","adverbs","nouns","cardinals"]
+# columns = ["numberOfSentences","numOfWords","avgWordLength","wwrl","wordsWithRepeatingLetters","questions","exclamations","avgTokensPerSentence","avgPunctuationMarksPerSentence","femPronouns","malePronouns","femToMalePronounRatio","childrenMentions","happiness","sadness","relationships","colors","affection","dreams"]
+columns = ["numberOfSentences","numOfWords","avgWordLength","wwrl","wordsWithRepeatingLetters","questions","exclamations","avgTokensPerSentence","avgPunctuationMarksPerSentence","femPronouns","malePronouns","femToMalePronounRatio","childrenMentions","happiness","sadness","relationships","colors","affection","dreams","adjectives","adverbs","nouns","cardinals"]
 importances = clf.feature_importances_
 print zip(columns, clf.feature_importances_)
 
