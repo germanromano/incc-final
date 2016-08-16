@@ -40,15 +40,15 @@ X = np.array(features)
 y = np.array(etiquetas)
 
 # Separacion en datos de desarrollo y validacion
-X_dev, X_dev, y_verif, y_verif = cross_validation.train_test_split(X, y, test_size=0.1, random_state=1234)
+X_dev, X_verif, y_dev, y_verif = cross_validation.train_test_split(X, y, test_size=0.1, random_state=1234)
 
 # Separacion en datos de training y testing
-X_train, X_test, y_train, y_test = cross_validation.train_test_split(X, y, test_size=0.2, random_state=1234)
+X_train, X_test, y_train, y_test = cross_validation.train_test_split(X_dev, y_dev, test_size=0.2, random_state=1234)
 
 #print X_train.shape, y_train.shape, X_test.shape, y_test.shape
 
 # Hacer el clasificador
-clf = RandomForestClassifier(n_estimators=15, random_state=1234)
+clf = RandomForestClassifier(n_estimators=20, random_state=1234)
 # Entrenar
 clf.fit(X_train, y_train)
 # Predicho por el clasificador
@@ -60,18 +60,27 @@ importances = clf.feature_importances_
 print zip(columns, clf.feature_importances_)
 
 # Comparacion entre el predicho y el de etiquetas
-print metrics.accuracy_score(y_test, y_pred)
-print metrics.confusion_matrix(y_test, y_pred)
+print "Accuracy score, training: ", metrics.accuracy_score(y_test, y_pred)
+print "Confusion matrix, training: ", metrics.confusion_matrix(y_test, y_pred)
 
 std = np.std([tree.feature_importances_ for tree in clf.estimators_],
              axis=0)
 indices = np.argsort(importances)[::-1]
 
 # Plot the feature importances of the forest
-plt.figure()
-plt.title("Feature importances")
-plt.bar(range(X.shape[1]), importances[indices],
-       color="r", yerr=std[indices], align="center")
-plt.xticks(range(X.shape[1]), indices)
-plt.xlim([-1, X.shape[1]])
-plt.show()
+# plt.figure()
+# plt.title("Feature importances")
+# plt.bar(range(X.shape[1]), importances[indices],
+#        color="r", yerr=std[indices], align="center")
+# plt.xticks(range(X.shape[1]), indices)
+# plt.xlim([-1, X.shape[1]])
+# plt.show()
+
+
+# Predicho por el clasificador de verificacion
+y_pred_verif = clf.predict(X_verif)
+
+# Comparacion final
+print "Accuracy score, verification: ", metrics.accuracy_score(y_verif, y_pred_verif)
+print "Confusion matrix, verification: ", metrics.confusion_matrix(y_verif, y_pred_verif)
+
