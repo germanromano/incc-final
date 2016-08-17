@@ -68,13 +68,13 @@ std = np.std([tree.feature_importances_ for tree in clf.estimators_],
 indices = np.argsort(importances)[::-1]
 
 # Plot the feature importances of the forest
-# plt.figure()
-# plt.title("Feature importances")
-# plt.bar(range(X.shape[1]), importances[indices],
-#        color="r", yerr=std[indices], align="center")
-# plt.xticks(range(X.shape[1]), indices)
-# plt.xlim([-1, X.shape[1]])
-# plt.show()
+plt.figure()
+plt.title("Importancia de cada feature")
+plt.bar(range(X.shape[1]), importances[indices],
+       color="seagreen", yerr=std[indices], align="center", ecolor="midnightblue")
+plt.xticks(range(X.shape[1]), indices)
+plt.xlim([-1, X.shape[1]])
+plt.show()
 
 
 # Predicho por el clasificador de verificacion
